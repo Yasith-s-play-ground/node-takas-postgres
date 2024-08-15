@@ -1,9 +1,10 @@
-import express from "express";
+import express, {IRouterHandler, RequestHandler} from "express";
 
 type Handler = {
+    name?: string,
     path?: string,
-    method?: 'GET' | 'PUT' | 'POST' | 'PATCH' | 'DELETE',
-    middlewares?: Array<Function>
+    method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
+    middlewares?: Array<RequestHandler>
 }
 
 type Handlers = {
@@ -12,7 +13,7 @@ type Handlers = {
 
 type Controller = {
     path?: string,
-    middlewares?: Array<Function>,
+    middlewares?: Array<RequestHandler>,
     handlers?: Handlers,
     constructor: Function
 }
@@ -35,35 +36,34 @@ export function RestController(path: string = "/") {
     }
 }
 
-export function Middleware(middlewares: Array<Function>) {
+export function Middleware(middlewares: Array<RequestHandler>) {
     return function (target: Object | Function, name?: string, descriptor?: PropertyDescriptor) {
-        /* identify whether this middleware is applied to a class or a method */
         if (!name && !descriptor) {
-            //Class
-            if (!CONTROLLERS[target.constructor.name]) CONTROLLERS[target.constructor.name] = {};
+            // Class
+            if (!CONTROLLERS[(target as Function).name]) CONTROLLERS[(target as Function).name] = {};
             CONTROLLERS[(target as Function).name].middlewares = middlewares;
         } else {
-            //Method
+            // Method
+            if (!CONTROLLERS[target.constructor.name]) CONTROLLERS[target.constructor.name] = {};
             if (!CONTROLLERS[target.constructor.name].handlers) CONTROLLERS[target.constructor.name].handlers = {};
+            if (!CONTROLLERS[target.constructor.name].handlers![name!]) CONTROLLERS[target.constructor.name].handlers![name!] = {
+                name
+            };
             CONTROLLERS[target.constructor.name].handlers![name!].middlewares = middlewares;
         }
     }
-
 }
 
 export function GetMapping(path: string = "/") {
     return function (prototype: Object, name: string, descriptor: PropertyDescriptor) {
-        /* if this controller is not available in CONTROLLERS create new object */
         if (!CONTROLLERS[prototype.constructor.name]) CONTROLLERS[prototype.constructor.name] = {};
-        /* if there is no handler object in the controller, put empty handler object */
         if (!CONTROLLERS[prototype.constructor.name].handlers) CONTROLLERS[prototype.constructor.name].handlers = {};
-        /* put createUserAccount object into this object if it is not added already */
         CONTROLLERS[prototype.constructor.name].handlers![name] = {
+            name,
             path,
             method: 'GET'
         }
     }
-
 }
 
 export function PostMapping(path: string = "/") {
@@ -71,11 +71,11 @@ export function PostMapping(path: string = "/") {
         if (!CONTROLLERS[prototype.constructor.name]) CONTROLLERS[prototype.constructor.name] = {};
         if (!CONTROLLERS[prototype.constructor.name].handlers) CONTROLLERS[prototype.constructor.name].handlers = {};
         CONTROLLERS[prototype.constructor.name].handlers![name] = {
+            name,
             path,
             method: 'POST'
         }
     }
-
 }
 
 export function PutMapping(path: string = "/") {
@@ -83,11 +83,11 @@ export function PutMapping(path: string = "/") {
         if (!CONTROLLERS[prototype.constructor.name]) CONTROLLERS[prototype.constructor.name] = {};
         if (!CONTROLLERS[prototype.constructor.name].handlers) CONTROLLERS[prototype.constructor.name].handlers = {};
         CONTROLLERS[prototype.constructor.name].handlers![name] = {
+            name,
             path,
             method: 'PUT'
         }
     }
-
 }
 
 export function DeleteMapping(path: string = "/") {
@@ -95,11 +95,11 @@ export function DeleteMapping(path: string = "/") {
         if (!CONTROLLERS[prototype.constructor.name]) CONTROLLERS[prototype.constructor.name] = {};
         if (!CONTROLLERS[prototype.constructor.name].handlers) CONTROLLERS[prototype.constructor.name].handlers = {};
         CONTROLLERS[prototype.constructor.name].handlers![name] = {
+            name,
             path,
             method: 'DELETE'
         }
     }
-
 }
 
 export function PatchMapping(path: string = "/") {
@@ -107,17 +107,80 @@ export function PatchMapping(path: string = "/") {
         if (!CONTROLLERS[prototype.constructor.name]) CONTROLLERS[prototype.constructor.name] = {};
         if (!CONTROLLERS[prototype.constructor.name].handlers) CONTROLLERS[prototype.constructor.name].handlers = {};
         CONTROLLERS[prototype.constructor.name].handlers![name] = {
+            name,
             path,
             method: 'PATCH'
         }
     }
-
 }
 
 export class ExpressApp {
     static create(module: Function) {
         const app = express();
-        console.log(CONTROLLERS);
+        /* iterate values in CONTROLLERS
+                * we get 2 controllers
+                * UserHttpController and AdvertisementHttpController
+                * */
+        for (const controllerObj of Object.values(CONTROLLERS)) {
+            /* if no constructor, it is not a controller */
+            if (!controllerObj.constructor) continue;  // << IMP
+            /* create a router */
+            const router = express.Router();
+            /* create an object from controller class eg:new UserHttpController()*/
+            const controller = new (controllerObj.constructor as (new () => any))();
+
+            /* take middlewares one by one ( added to class, identified by Middleware annotation ) */
+            for (const middleware of controllerObj.middlewares!) {
+                /* set middleware to router */
+                router.use(middleware);
+            }
+
+            /* get handler methods one by one */
+            for (const handler of Object.values(controllerObj.handlers!)) {
+                switch (handler.method) {
+                    case "GET":
+                        if (handler.middlewares) {
+                            router.get(handler.path!, [...handler.middlewares, controller[handler.name!]])
+                        } else {
+                            router.get(handler.path!, controller[handler.name!]);
+                        }
+                        break;
+                    case "POST":
+                        /* check if there are middlewares */
+                        if (handler.middlewares) {
+                            router.post(handler.path!, [...handler.middlewares, controller[handler.name!]])
+                        } else {
+                            router.post(handler.path!, controller[handler.name!]);
+                        }
+                        break;
+                    case "PUT":
+                        if (handler.middlewares) {
+                            router.put(handler.path!, [...handler.middlewares, controller[handler.name!]])
+                        } else {
+                            router.put(handler.path!, controller[handler.name!]);
+                        }
+                        break;
+                    case "DELETE":
+                        if (handler.middlewares) {
+                            router.delete(handler.path!, [...handler.middlewares, controller[handler.name!]])
+                        } else {
+                            router.delete(handler.path!, controller[handler.name!]);
+                        }
+                        break;
+                    case "PATCH":
+                        if (handler.middlewares) {
+                            router.patch(handler.path!, [...handler.middlewares, controller[handler.name!]])
+                        } else {
+                            router.patch(handler.path!, controller[handler.name!]);
+                        }
+                        break;
+                }
+            }
+
+            /* set router to app */
+            app.use(controllerObj.path!, router);
+        }
+
         return app;
     }
 }

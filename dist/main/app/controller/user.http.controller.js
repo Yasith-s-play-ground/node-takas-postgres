@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import express, { json } from "express";
+import { json } from "express";
 import { Validators } from "../middleware/validators.middleware.js";
 import { DeleteMapping, GetMapping, Middleware, PostMapping, RestController } from "../config/core.config.js";
 let UserHttpController = class UserHttpController {
@@ -33,12 +33,11 @@ UserHttpController = __decorate([
     RestController('/users')
 ], UserHttpController);
 export { UserHttpController };
-const router = express.Router();
-const httpController = new UserHttpController();
 /* to send data in json objects
 * this controller needs to use json */
-router.use(json());
-router.get('/me', httpController.getUserAccount);
-router.post('/', Validators.validateUser, httpController.createNewUserAccount);
-router.delete('/me', httpController.deleteUserAccount);
+// router.use(json());
+//
+// router.get('/me', httpController.getUserAccount);
+// router.post('/', Validators.validateUser, httpController.createNewUserAccount);
+// router.delete('/me', httpController.deleteUserAccount);
 //# sourceMappingURL=user.http.controller.js.map

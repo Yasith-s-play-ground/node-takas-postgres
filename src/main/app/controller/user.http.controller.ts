@@ -26,13 +26,11 @@ export class UserHttpController {
     }
 }
 
-const router = express.Router();
-const httpController = new UserHttpController();
 /* to send data in json objects
 * this controller needs to use json */
-router.use(json());
-
-router.get('/me', httpController.getUserAccount);
-router.post('/', Validators.validateUser, httpController.createNewUserAccount);
-router.delete('/me', httpController.deleteUserAccount);
+// router.use(json());
+//
+// router.get('/me', httpController.getUserAccount);
+// router.post('/', Validators.validateUser, httpController.createNewUserAccount);
+// router.delete('/me', httpController.deleteUserAccount);
 

@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import express, { json } from "express";
+import { json } from "express";
 import { DeleteMapping, GetMapping, Middleware, PostMapping, RestController } from "../config/core.config.js";
 let AdvertisementHttpController = class AdvertisementHttpController {
     async getAllAdvertisements(req, res) {
@@ -31,9 +31,7 @@ AdvertisementHttpController = __decorate([
     RestController('/ads')
 ], AdvertisementHttpController);
 export { AdvertisementHttpController };
-export const router = express.Router();
-const httpController = new AdvertisementHttpController();
-router.get('/', httpController.getAllAdvertisements);
-router.post('/', httpController.postAdvertisement);
-router.delete('/:id', httpController.deleteAdvertisement); /* id = route parameter, path variable */
+// router.get('/', httpController.getAllAdvertisements);
+// router.post('/', httpController.postAdvertisement);
+// router.delete('/:id', httpController.deleteAdvertisement); /* id = route parameter, path variable */
 //# sourceMappingURL=advertisement.http.controller.js.map

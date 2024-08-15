@@ -21,10 +21,7 @@ export class AdvertisementHttpController {
     }
 }
 
-export const router = express.Router();
-const httpController = new AdvertisementHttpController();
-
-router.get('/', httpController.getAllAdvertisements);
-router.post('/', httpController.postAdvertisement);
-router.delete('/:id', httpController.deleteAdvertisement); /* id = route parameter, path variable */
+// router.get('/', httpController.getAllAdvertisements);
+// router.post('/', httpController.postAdvertisement);
+// router.delete('/:id', httpController.deleteAdvertisement); /* id = route parameter, path variable */
 
