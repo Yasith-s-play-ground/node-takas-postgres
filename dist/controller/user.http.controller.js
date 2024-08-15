@@ -26,7 +26,7 @@ async function createNewUserAccount(req, res) {
         violations.push('Invalid contact');
     }
     if (!validated) {
-        res.sendStatus(400);
+        res.status(400).json({ error: violations.toString() });
         console.log(violations.toString());
     }
     else {
@@ -35,20 +35,20 @@ async function createNewUserAccount(req, res) {
         let validated = true;
         // Business Validation
         // 1. Find whether this email already exists
-        const emailResult = await connection.query('SELECT * FROM "user" WHERE email=$1', [user.email]);
+        const emailResult = await connection.query('SELECT email FROM "user" WHERE email=$1', [user.email]);
         if (emailResult.rowCount ?? 0 >= 1) {
             validated = false;
             violations.push('email already exists!');
         }
         // 2. Find whether this contact number is already associated with another user
-        const contactResult = await connection.query('SELECT * FROM "user" WHERE contact=$1', [user.contact]);
+        const contactResult = await connection.query('SELECT email FROM "user" WHERE contact=$1', [user.contact]);
         if (contactResult.rowCount ?? 0 >= 1) {
             validated = false;
             violations.push('contact already associated with another user!');
         }
         if (!validated) {
             // If failed 409 status code ( conflict )
-            res.sendStatus(409);
+            res.status(409).json({ error: violations.toString() });
             console.log(violations.toString());
         }
         else {
@@ -58,7 +58,7 @@ async function createNewUserAccount(req, res) {
             }
             catch (e) {
                 console.log(e);
-                res.sendStatus(500); /* Internal server error - can't save */
+                res.status(500).json({ error: e.toString() }); /* Internal server error - can't save */
             }
             finally {
                 connection.release();
