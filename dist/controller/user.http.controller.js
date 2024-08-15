@@ -17,7 +17,7 @@ async function validateUser(req, res, next) {
     /* following RFC 9457 standard */
     if (errors.length > 0) {
         res.status(400)
-            .json(new ErrorTo(400, "Bad Request", "Data Validation Failed", req.baseUrl, errors));
+            .json(new ErrorTo(400, "Bad Request", "Data Validation Failed", req.baseUrl + req.url, errors));
     }
     else {
         // @ts-ignore

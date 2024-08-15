@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf dist",
-    "start": "tsc && nodemon --enable-source-maps dist/main.js",
+    "start": "tsc && nodemon --enable-source-maps dist/main/main.js",
     "compile": "tsc --watch",
     "build": "tsc",
     "cleanBuild": "rm -rf dist && tsc"
