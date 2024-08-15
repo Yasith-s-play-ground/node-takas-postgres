@@ -1,3 +1,5 @@
+import express from "express";
+
 export function Module(controllers: Array<Function>) {
     return function (constructor: Function) {
     }
@@ -5,6 +7,7 @@ export function Module(controllers: Array<Function>) {
 
 export function RestController(path: string = "/") {
     return function (constructor: Function) {
+        console.log('Rest Controller');
     }
 }
 
@@ -42,4 +45,11 @@ export function PatchMapping(path: string = "/") {
     return function (target: Object, name: string, descriptor: PropertyDescriptor) {
     }
 
+}
+
+export class ExpressApp {
+    static create(module: Function) {
+        const app = express();
+        return app;
+    }
 }

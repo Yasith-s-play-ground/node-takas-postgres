@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import express, { json } from "express";
-import { DeleteMapping, GetMapping, Middleware, PostMapping, RestController } from "../config/core.config";
+import { DeleteMapping, GetMapping, Middleware, PostMapping, RestController } from "../config/core.config.js";
 let AdvertisementHttpController = class AdvertisementHttpController {
     async getAllAdvertisements(req, res) {
         console.log("Get all advertisements");

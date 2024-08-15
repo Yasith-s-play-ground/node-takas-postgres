@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import express, { json } from "express";
 import { Validators } from "../middleware/validators.middleware.js";
-import { DeleteMapping, GetMapping, Middleware, PostMapping, RestController } from "../config/core.config";
+import { DeleteMapping, GetMapping, Middleware, PostMapping, RestController } from "../config/core.config.js";
 let UserHttpController = class UserHttpController {
     async createNewUserAccount(req, res) {
         const user = req.body;

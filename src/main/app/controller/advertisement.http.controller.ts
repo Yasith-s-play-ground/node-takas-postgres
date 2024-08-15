@@ -1,5 +1,5 @@
 import express, {json, Request, Response} from "express";
-import {DeleteMapping, GetMapping, Middleware, PostMapping, RestController} from "../config/core.config";
+import {DeleteMapping, GetMapping, Middleware, PostMapping, RestController} from "../config/core.config.js";
 
 @Middleware([json()])
 @RestController('/ads')

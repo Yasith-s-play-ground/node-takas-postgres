@@ -1,7 +1,7 @@
 import express, {json, Request, Response} from "express";
 import {UserTo} from "../to/user.to.js";
 import {Validators} from "../middleware/validators.middleware.js";
-import {DeleteMapping, GetMapping, Middleware, PostMapping, RestController} from "../config/core.config";
+import {DeleteMapping, GetMapping, Middleware, PostMapping, RestController} from "../config/core.config.js";
 
 @Middleware([json()])
 @RestController('/users')
