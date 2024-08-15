@@ -24,15 +24,15 @@ async function createNewUserAccount(req: Request,
     if (!user) {
         res.sendStatus(400);
     } else {
-        if (!user.email || !UserValidation.validateEmail(user.email)) {
+        if (!user.email || !UserValidation.validateEmail(user.email.trim())) {
             validated = false;
             violations.push('Invalid email');
         }
-        if (!user.name || !UserValidation.validateName(user.name)) {
+        if (!user.name || !UserValidation.validateName(user.name.trim())) {
             validated = false;
             violations.push('Invalid name');
         }
-        if (!user.contact || !UserValidation.validateContact(user.contact)) {
+        if (!user.contact || !UserValidation.validateContact(user.contact.trim())) {
             validated = false;
             violations.push('Invalid contact');
         }
