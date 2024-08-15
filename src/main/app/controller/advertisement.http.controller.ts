@@ -1,14 +1,21 @@
-import express, {Request, Response} from "express";
+import express, {json, Request, Response} from "express";
+import {DeleteMapping, GetMapping, Middleware, PostMapping, RestController} from "../config/core.config";
 
+@Middleware([json()])
+@RestController('/ads')
 class AdvertisementHttpController {
+
+    @GetMapping('/')
     async getAllAdvertisements(req: Request, res: Response) {
         console.log("Get all advertisements");
     }
 
+    @PostMapping('/')
     async postAdvertisement(req: Request, res: Response) {
         console.log("Post advertisement");
     }
 
+    @DeleteMapping('/')
     async deleteAdvertisement(req: Request, res: Response) {
         console.log("Delete advertisement");
     }
