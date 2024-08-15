@@ -5,7 +5,7 @@ import {DeleteMapping, GetMapping, Middleware, PostMapping, RestController} from
 
 @Middleware([json()])
 @RestController('/users')
-class UserHttpController {
+export class UserHttpController {
 
     @Middleware([Validators.validateUser])
     @PostMapping("/")
@@ -36,4 +36,3 @@ router.get('/me', httpController.getUserAccount);
 router.post('/', Validators.validateUser, httpController.createNewUserAccount);
 router.delete('/me', httpController.deleteUserAccount);
 
-export {router as UserHttpController};

@@ -32,6 +32,7 @@ UserHttpController = __decorate([
     Middleware([json()]),
     RestController('/users')
 ], UserHttpController);
+export { UserHttpController };
 const router = express.Router();
 const httpController = new UserHttpController();
 /* to send data in json objects
@@ -40,5 +41,4 @@ router.use(json());
 router.get('/me', httpController.getUserAccount);
 router.post('/', Validators.validateUser, httpController.createNewUserAccount);
 router.delete('/me', httpController.deleteUserAccount);
-export { router as UserHttpController };
 //# sourceMappingURL=user.http.controller.js.map

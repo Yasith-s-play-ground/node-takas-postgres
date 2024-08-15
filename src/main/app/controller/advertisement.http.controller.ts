@@ -3,7 +3,7 @@ import {DeleteMapping, GetMapping, Middleware, PostMapping, RestController} from
 
 @Middleware([json()])
 @RestController('/ads')
-class AdvertisementHttpController {
+export class AdvertisementHttpController {
 
     @GetMapping('/')
     async getAllAdvertisements(req: Request, res: Response) {
@@ -28,4 +28,3 @@ router.get('/', httpController.getAllAdvertisements);
 router.post('/', httpController.postAdvertisement);
 router.delete('/:id', httpController.deleteAdvertisement); /* id = route parameter, path variable */
 
-export {router as AdvertisementHttpController};
