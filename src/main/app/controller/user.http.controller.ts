@@ -15,12 +15,13 @@ export class UserHttpController {
 
     }
 
-    @DeleteMapping("/me")
+    /* use route parameters ( path variables )*/
+    @DeleteMapping("/:user")
     async deleteUserAccount(req: Request, res: Response) {
         console.log('Delete user account');
     }
 
-    @GetMapping("/me")
+    @GetMapping("/:user")
     async getUserAccount(req: Request, res: Response) {
         console.log('Get user account information');
     }

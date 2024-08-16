@@ -129,10 +129,12 @@ export class ExpressApp {
             /* create an object from controller class eg:new UserHttpController()*/
             const controller = new (controllerObj.constructor as (new () => any))();
 
-            /* take middlewares one by one ( added to class, identified by Middleware annotation ) */
-            for (const middleware of controllerObj.middlewares!) {
-                /* set middleware to router */
-                router.use(middleware);
+            if (controllerObj.middlewares) {
+                /* take middlewares one by one ( added to class, identified by Middleware annotation ) */
+                for (const middleware of controllerObj.middlewares!) {
+                    /* set middleware to router */
+                    router.use(middleware);
+                }
             }
 
             /* get handler methods one by one */
@@ -148,8 +150,10 @@ export class ExpressApp {
                     case "POST":
                         /* check if there are middlewares */
                         if (handler.middlewares) {
+                            /* add middlewares, then handlers */
                             router.post(handler.path!, [...handler.middlewares, controller[handler.name!]])
                         } else {
+                            /* add handlers */
                             router.post(handler.path!, controller[handler.name!]);
                         }
                         break;
