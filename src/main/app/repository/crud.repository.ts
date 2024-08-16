@@ -1,5 +1,7 @@
 /* This is the super interface */
-export interface CrudRepository<T, PK> /* This is how to define Type Parameters */
+import {SuperRepository} from "./super.repository";
+
+export interface CrudRepository<T, PK> extends SuperRepository/* This is how to define Type Parameters */
 {
     /* As these functions should be implemented as async, return type should be wrapped with Promise */
     count(): Promise<number>;
