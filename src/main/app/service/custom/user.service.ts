@@ -1,7 +1,10 @@
-import {UserTo} from "../to/user.to";
+import {UserTo} from "../../to/user.to";
 
 export interface UserService {
     /* use descriptive names for methods */
+    /* even if similar names are in methods of different interfaces in service layer,
+    * we don't take them to a generic interface as it will remove the descriptive aspect
+    * of the service layer*/
 
     /* use YAGNI here, define only what is necessary for the API layer */
 

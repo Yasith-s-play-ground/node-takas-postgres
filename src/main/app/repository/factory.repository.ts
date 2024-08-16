@@ -15,7 +15,7 @@ export enum RepositoryType {
 /* We are using Factory Design Pattern
 * We are making instance methods to return products*/
 export class FactoryRepository {
-    private static INSTANCE = new FactoryRepository();
+    private static readonly INSTANCE = new FactoryRepository();
 
     private constructor() {
     }
