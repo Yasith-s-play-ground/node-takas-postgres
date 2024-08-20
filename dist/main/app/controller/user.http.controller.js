@@ -13,9 +13,11 @@ let UserHttpController = class UserHttpController {
         const userService = FactoryService.getInstance().getService(ServiceType.USER);
         try {
             await userService.createUserAccount(req.body);
+            res.sendStatus(201);
         }
         catch (e) {
             console.log(e);
+            res.sendStatus(500);
         }
     }
     /* use route parameters ( path variables )*/

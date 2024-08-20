@@ -15,8 +15,10 @@ export class UserHttpController {
         const userService = FactoryService.getInstance().getService(ServiceType.USER) as UserService;
         try {
             await userService.createUserAccount(req.body);
+            res.sendStatus(201);
         } catch (e) {
             console.log(e);
+            res.sendStatus(500);
         }
 
 
