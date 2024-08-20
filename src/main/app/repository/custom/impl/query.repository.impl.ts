@@ -1,4 +1,4 @@
-import {QueryRepository} from "../query.repository";
+import {QueryRepository} from "../query.repository.js";
 import {PoolClient} from "pg";
 
 export class QueryRepositoryImpl implements QueryRepository {

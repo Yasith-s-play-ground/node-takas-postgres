@@ -7,10 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { json } from "express";
 import { Validators } from "../middleware/validators.middleware.js";
 import { DeleteMapping, GetMapping, Middleware, PostMapping, RestController } from "../config/core.config.js";
+import { FactoryService, ServiceType } from "../service/factory.service.js";
 let UserHttpController = class UserHttpController {
     async createNewUserAccount(req, res) {
-        const user = req.body;
+        const userService = FactoryService.getInstance().getService(ServiceType.USER);
+        try {
+            await userService.createUserAccount(req.body);
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
+    /* use route parameters ( path variables )*/
     async deleteUserAccount(req, res) {
         console.log('Delete user account');
     }
@@ -23,10 +31,10 @@ __decorate([
     PostMapping("/")
 ], UserHttpController.prototype, "createNewUserAccount", null);
 __decorate([
-    DeleteMapping("/me")
+    DeleteMapping("/:user")
 ], UserHttpController.prototype, "deleteUserAccount", null);
 __decorate([
-    GetMapping("/me")
+    GetMapping("/:user")
 ], UserHttpController.prototype, "getUserAccount", null);
 UserHttpController = __decorate([
     Middleware([json()]),

@@ -1,12 +1,9 @@
-import {UserRepository} from "./custom/user.repository.js";
 import {UserRepositoryImpl} from "./custom/impl/user.repository.impl.js";
 import {PoolClient} from "pg";
-import {ImageRepository} from "./custom/image.repository.js";
 import {ImageRepositoryImpl} from "./custom/impl/image.repository.impl.js";
-import {AdRepository} from "./custom/ad.repository.js";
 import {AdRepositoryImpl} from "./custom/impl/ad.repository.impl.js";
-import {SuperRepository} from "./super.repository";
-import {QueryRepositoryImpl} from "./custom/impl/query.repository.impl";
+import {SuperRepository} from "./super.repository.js";
+import {QueryRepositoryImpl} from "./custom/impl/query.repository.impl.js";
 
 export enum RepositoryType {
     AD, USER, IMAGE, QUERY

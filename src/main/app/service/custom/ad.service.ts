@@ -1,4 +1,4 @@
-import {AdTo} from "../../to/ad.to";
+import {AdTo} from "../../to/ad.to.js";
 
 export interface AdService {
     getAllAds(): Promise<Array<AdTo>>;

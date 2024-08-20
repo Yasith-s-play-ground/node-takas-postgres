@@ -1,5 +1,5 @@
-import { AdTo } from "../../../to/ad.to";
-import {AdService} from "../ad.service";
+import { AdTo } from "../../../to/ad.to.js";
+import {AdService} from "../ad.service.js";
 
 export class AdServiceImpl implements AdService {
     getAllAds(): Promise<AdTo[]> {

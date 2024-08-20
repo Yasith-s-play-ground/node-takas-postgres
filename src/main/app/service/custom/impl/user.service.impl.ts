@@ -1,8 +1,8 @@
-import {UserTo} from "../../../to/user.to";
-import {UserService} from "../user.service";
-import {pool} from "../../../config/database.config";
-import {FactoryRepository, RepositoryType} from "../../../repository/factory.repository";
-import {UserRepository} from "../../../repository/custom/user.repository";
+import {UserTo} from "../../../to/user.to.js";
+import {UserService} from "../user.service.js";
+import {pool} from "../../../config/database.config.js";
+import {FactoryRepository, RepositoryType} from "../../../repository/factory.repository.js";
+import {UserRepository} from "../../../repository/custom/user.repository.js";
 
 export class UserServiceImpl implements UserService {
     async createUserAccount(user: UserTo): Promise<void> {

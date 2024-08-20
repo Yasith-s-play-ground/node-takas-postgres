@@ -1,9 +1,6 @@
-import {UserEntity} from "../../../entity/user.entity";
-import {UserTo} from "../../../to/user.to";
+import {UserEntity} from "../../../entity/user.entity.js";
 import {UserRepository} from "../user.repository.js";
-import {pool} from "../../../config/database.config";
 import {PoolClient} from "pg";
-import {userInfo} from "node:os";
 
 /*While the User Repository interface defines the contract for
 interacting with user data, the implementation brings these methods

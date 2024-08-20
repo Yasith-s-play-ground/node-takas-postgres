@@ -7,28 +7,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { json } from "express";
 import { DeleteMapping, GetMapping, Middleware, PostMapping, RestController } from "../config/core.config.js";
 let AdvertisementHttpController = class AdvertisementHttpController {
-    async getAllAdvertisements(req, res) {
-        console.log("Get all advertisements");
+    async findAllAds(req, res) {
+        console.log("Find all ads");
     }
     async postAdvertisement(req, res) {
-        console.log("Post advertisement");
+        console.log("Post ad");
     }
     async deleteAdvertisement(req, res) {
-        console.log("Delete advertisement");
+        console.log("Delete ad");
     }
 };
 __decorate([
     GetMapping('/')
-], AdvertisementHttpController.prototype, "getAllAdvertisements", null);
+], AdvertisementHttpController.prototype, "findAllAds", null);
 __decorate([
     PostMapping('/')
 ], AdvertisementHttpController.prototype, "postAdvertisement", null);
 __decorate([
-    DeleteMapping('/')
+    DeleteMapping('/:id')
 ], AdvertisementHttpController.prototype, "deleteAdvertisement", null);
 AdvertisementHttpController = __decorate([
     Middleware([json()]),
-    RestController('/ads')
+    RestController('/users/:user/ads') /* value of path variable can change */
 ], AdvertisementHttpController);
 export { AdvertisementHttpController };
 // router.get('/', httpController.getAllAdvertisements);

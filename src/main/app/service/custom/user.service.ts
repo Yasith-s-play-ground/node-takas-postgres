@@ -1,4 +1,4 @@
-import {UserTo} from "../../to/user.to";
+import {UserTo} from "../../to/user.to.js";
 
 export interface UserService {
     /* use descriptive names for methods */

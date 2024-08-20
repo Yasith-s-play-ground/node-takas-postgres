@@ -1,5 +1,5 @@
 /* This is the super interface */
-import {SuperRepository} from "./super.repository";
+import {SuperRepository} from "./super.repository.js";
 
 export interface CrudRepository<T, PK> extends SuperRepository/* This is how to define Type Parameters */
 {
